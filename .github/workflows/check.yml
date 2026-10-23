@@ -1,0 +1,17 @@
+name: check
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  rules:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+      - run: node scripts/check.mjs
+      - name: helper parses and lists its commands
+        run: node -e "import('./skills/bort-agentic-wallet/scripts/bort.mjs').then(m => { if (!m.COMMANDS.includes('agent')) process.exit(1); console.log(m.COMMANDS.length + ' commands'); })"
