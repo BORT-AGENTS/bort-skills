@@ -9,11 +9,14 @@ Read [SKILL.md](SKILL.md) first. Each flow has its own file under `references/`.
 
 ## Install
 
-The public install source is being prepared. Until it is announced, copy this folder (served at
-`https://www.bortagent.xyz/.well-known/agent-skills/bort-agentic-wallet/`, listed with its sha256 in
-`https://www.bortagent.xyz/.well-known/agent-skills/index.json`) into your agent's skills directory, for
-example `~/.claude/skills/bort-agentic-wallet/`. The Binance Agentic Wallet CLI is a separate install:
-`npm install -g @binance/agentic-wallet`.
+```bash
+npx skills add BORT-AGENTS/bort-skills --skill bort-agentic-wallet
+```
+
+The skill is published in `github.com/BORT-AGENTS/bort-skills`, BORT's skills repository, and the same files
+are served at `https://www.bortagent.xyz/.well-known/agent-skills/bort-agentic-wallet/`, listed with their
+sha256 in `https://www.bortagent.xyz/.well-known/agent-skills/index.json`. The Binance Agentic Wallet CLI is a
+separate install: `npm install -g @binance/agentic-wallet`.
 
 ## Requirements
 
