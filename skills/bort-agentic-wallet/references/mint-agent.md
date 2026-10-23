@@ -38,8 +38,9 @@ URI the user already has.
    its LLM, persona, platforms, triggers and trading activation happens on `https://bortagent.xyz` with a
    browser wallet that controls the same address. Until then it cannot answer questions or take jobs.
 
-The fee is read live at step 4 and sent as `--value`; MintGate rejects a lower value and keeps nothing above
-the fee. Re-run `encode-mint` if more than a few minutes pass before the preview.
+The fee is read live at step 4 and sent as `--value`. MintGate rejects a lower value and keeps any excess (only
+its owner can sweep it back), so never send more than the fee. Re-run `encode-mint` if more than a few minutes
+pass before the preview.
 
 ## `bort.mjs mint-fee`
 

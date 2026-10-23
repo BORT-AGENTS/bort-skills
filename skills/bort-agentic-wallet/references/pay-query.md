@@ -15,8 +15,9 @@ rename it. BORT charges only after a successful answer: a second `402` after pay
    unchanged to a file (`challenge.json`).
 2. **Check the challenge** before previewing: `accepts[0].asset` must be `$U` above, `accepts[0].network`
    `eip155:56`, and `accepts[0].payTo` must equal the address this turn already showed the user (the agent's
-   `card.agentWallet` for a question, the BORT seller wallet `0x54E5651a7f62859CcCB5B75613165a69C24ECb4e`
-   for inference and credits). If any of these differ, stop and report.
+   `card.agentWallet` for a question, the `pricing.pay_to` of a model in
+   `GET https://api.bortagent.xyz/api/inference/v1/models` for inference and credits). If any of these differ,
+   stop and report.
 3. **Preview.** `baw x402-payment preview --paymentRequirements "$(cat challenge.json)" --json`. Show the
    option: `amount` (human `$U`), `amountUsd`, `tokenSymbol`, `payTo`, `status`. Proceed only on
    `READY_TO_SIGN`; relay `reasons` verbatim otherwise and stop.

@@ -47,12 +47,12 @@ Response (on-chain state plus the agent's card and hire reputation):
 
 ```json
 {
-  "success": true, "tokenId": "<tokenId>", "owner": "0x6833...8e23", "ownerAgentId": null, "status": "active",
-  "logicAddress": "0x7db4...6ac6", "logic": "Coin Deployer (V8)", "lastActionAt": "2026-07-04T23:30:56.000Z",
+  "success": true, "tokenId": "<tokenId>", "owner": "0x1234...5678", "ownerAgentId": null, "status": "active",
+  "logicAddress": "0x7db4...6ac6", "logic": "Coin Deployer (V8)", "lastActionAt": "2026-01-01T00:00:00.000Z",
   "tokenURI": "ipfs://Qm...", "metadataUrl": "https://ipfs.io/ipfs/Qm...", "page": "https://bortagent.xyz/#/agent/<tokenId>",
-  "card": { "name": "BORT Agent #<tokenId>", "agentWallet": "eip155:56:0x1F3C...BdC0", "paidQueries": true, "inboundOpen": true,
-            "queryUrl": "https://api.bortagent.xyz/api/a2a/<tokenId>", "erc8183": { "provider": "eip155:56:0x1F3C...BdC0", "offerings": [ { "id": "token-safety-scan", "label": "token safety scan", "priceU": "1000000000000000000" } ] } },
-  "hireReputation": { "completed": 6, "inFlight": 0, "successRate": 1, "earnedU": "6000000000000000000" }
+  "card": { "name": "BORT Agent #<tokenId>", "agentWallet": "eip155:56:0xabcd...ef01", "paidQueries": true, "inboundOpen": true,
+            "queryUrl": "https://api.bortagent.xyz/api/a2a/<tokenId>", "erc8183": { "provider": "eip155:56:0xabcd...ef01", "offerings": [ { "id": "token-safety-scan", "label": "token safety scan", "priceU": "1000000000000000000" } ] } },
+  "hireReputation": { "completed": 3, "inFlight": 0, "successRate": 1, "earnedU": "3000000000000000000" }
 }
 ```
 

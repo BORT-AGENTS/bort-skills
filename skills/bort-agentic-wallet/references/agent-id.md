@@ -18,7 +18,7 @@ node {baseDir}/scripts/bort.mjs agent-id <wallet>
 Response:
 
 ```json
-{ "success": true, "address": "0x90b4...a0f6", "agentId": "example.ai", "registry": "0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F", "note": "This is the .ai Agent ID bound to the wallet on BNB Chain." }
+{ "success": true, "address": "0x1234...5678", "agentId": "example.ai", "registry": "0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F", "note": "This is the .ai Agent ID bound to the wallet on BNB Chain." }
 ```
 
 `agentId` is `null` when the wallet holds no name. Tell the user it can be claimed for free in the Binance

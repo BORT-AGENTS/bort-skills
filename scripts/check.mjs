@@ -31,6 +31,7 @@ const RULES = [
   [/\b11[0-9]{3}\b/, 'looks like a real agent number (use <tokenId>)'],
   [/\bheyi\b|\bbortid\b|\bbort\.ai\b/i, 'a real Agent ID used as an example (use example.ai)'],
   [/0x1F3CBddCb9257A54d10325f900F6364C1d86BdC0|0x72b73415e263c2b976b2770ee764bacd02ec3004|0xf4A9527f1551Ab68a6770088e6Faab94B565a44D|0x84543FbB545ad78e40E70cEa3c254Bd8E0ea755E/i, 'a real wallet used as an example'],
+  [/\b0x(?:54E5|90b4|6833|1F3C|72b7|f4A9|8454)/i, 'a real wallet, written out or abbreviated (use 0x1234...5678)'],
   [/-----BEGIN [A-Z ]*PRIVATE KEY-----|sk-[A-Za-z0-9]{20,}|AKIA[0-9A-Z]{16}|xox[baprs]-[A-Za-z0-9-]{10,}|ghp_[A-Za-z0-9]{30,}/, 'credential-shaped string'],
   [/(api[_-]?key|secret|password|token)\s*[:=]\s*["'][A-Za-z0-9+/_-]{16,}["']/i, 'inline credential assignment'],
   [/onrender\.com|supabase\.co/, 'internal host'],
