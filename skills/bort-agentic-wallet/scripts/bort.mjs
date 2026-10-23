@@ -145,7 +145,7 @@ function toBig(v, what) {
   catch (_) { fail(`${what} must be a non-negative integer in base units, got: ${v}`); }
 }
 const word = (hex) => hex.replace(/^0x/, '').padStart(64, '0');
-const encAddress = (a) => word(a.toLowerCase());
+const encAddress = (a) => word(requireAddress(a, 'address').toLowerCase());
 const encUint = (n) => word(n.toString(16));
 const encBytes32 = (h) => { const x = h.replace(/^0x/, ''); if (x.length !== 64) fail('bytes32 must be 32 bytes'); return x.toLowerCase(); };
 function encBytesRaw(hex) {
@@ -205,16 +205,18 @@ function decodeTuple(hex, types) {
 // error that is NOT a revert (rate limit, unsupported method) also moves to the next endpoint; a
 // revert is a real answer and is returned as an error to the caller.
 const isRevert = (err) => err && (err.code === 3 || /revert/i.test(String(err.message || '')));
+// An RPC URL may carry a key (BSC_RPC_URL): messages name the host only.
+const rpcLabel = (u) => { try { return new URL(u).origin; } catch (_) { return '<rpc>'; } };
 async function rpcRaw(payload) {
   let last = null;
   for (const url of RPCS) {
     try {
       const res = await fetch(url, { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(payload) });
-      if (!res.ok) { last = new Error(`${url} returned HTTP ${res.status}`); continue; }
+      if (!res.ok) { last = new Error(`${rpcLabel(url)} returned HTTP ${res.status}`); continue; }
       const json = await res.json();
       const items = Array.isArray(json) ? json : [json];
       const bad = items.find((j) => j && j.error && !isRevert(j.error));
-      if (bad) { last = new Error(`${url}: ${bad.error.message || 'RPC error'}`); continue; }
+      if (bad) { last = new Error(`${rpcLabel(url)}: ${bad.error.message || 'RPC error'}`); continue; }
       return json;
     } catch (e) { last = e; }
   }
@@ -277,7 +279,7 @@ async function resolveBortName(name, { forPayment = true } = {}) {
 }
 // A provider for hire-plan: a 0x address as before, or a BORT agent name resolved live to the agent's wallet.
 async function providerAddress(v) {
-  if (isBortName(v)) { const r = await resolveBortName(v); if (!r.tba) fail(`${v} names agent #${r.tokenId}, but its wallet could not be read; pass the 0x address`); return r.tba; }
+  if (isBortName(v)) { const r = await resolveBortName(v); if (!r.tba) fail(`${v} names agent #${r.tokenId}, but its wallet could not be read; pass the 0x address`); return requireAddress(r.tba, `the wallet ${v} resolves to`); }
   return requireAddress(v, '--provider');
 }
 
@@ -319,7 +321,16 @@ function sessionTarget(f) {
 }
 
 const fmtU = (n) => { const neg = n < 0n; const a = neg ? -n : n; const whole = a / ONE_U; const frac = (a % ONE_U).toString().padStart(18, '0').replace(/0+$/, ''); return (neg ? '-' : '') + whole.toString() + (frac ? '.' + frac : ''); };
-const previewCmd = (from, to, value, data) => `baw contract-call preview --binanceChainId 56 --from ${from || '<wallet>'} --to ${to} --value ${value} --inputData ${data} --json`;
+// The preview line is copied into a shell, so every piece of it is checked before it is built: an address,
+// base units, 0x hex. Anything else (a hostile API answer, a bug upstream) is refused here, never echoed.
+const HEX_DATA_RE = /^0x(?:[0-9a-fA-F]{2})*$/;
+const previewCmd = (from, to, value, data) => {
+  if (from) requireAddress(from, '--from');
+  requireAddress(to, '--to');
+  if (!/^\d+$/.test(String(value))) fail(`refusing to build a preview: value must be base units, got: ${value}`);
+  if (!HEX_DATA_RE.test(String(data))) fail('refusing to build a preview: the calldata is not 0x hex');
+  return `baw contract-call preview --binanceChainId 56 --from ${from || '<wallet>'} --to ${to} --value ${value} --inputData ${data} --json`;
+};
 
 function parseFlags(argv) {
   const out = {}; for (let i = 0; i < argv.length; i++) { const a = argv[i]; if (a.startsWith('--')) { const k = a.slice(2); const v = (i + 1 < argv.length && !argv[i + 1].startsWith('--')) ? argv[++i] : 'true'; out[k] = v; } }
@@ -807,7 +818,7 @@ const invokedDirectly = (() => { try { return process.argv[1] && pathToFileURL(p
 if (!invokedDirectly) { /* imported as a module */ } else {
 const [cmd, ...rest] = process.argv.slice(2);
 if (!cmd || cmd === 'help' || !commands[cmd]) {
-  process.stdout.write(JSON.stringify({ success: !!(cmd === 'help'), commands: Object.keys(commands), rpc: RPCS, api: API, error: cmd && cmd !== 'help' ? `unknown command ${cmd}` : undefined }) + '\n');
+  process.stdout.write(JSON.stringify({ success: !!(cmd === 'help'), commands: Object.keys(commands), rpc: RPCS.map(rpcLabel), api: API, error: cmd && cmd !== 'help' ? `unknown command ${cmd}` : undefined }) + '\n');
   process.exit(cmd === 'help' ? 0 : 1);
 }
 commands[cmd](rest).then((out) => {
