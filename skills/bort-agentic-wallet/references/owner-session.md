@@ -193,6 +193,39 @@ node {baseDir}/scripts/bort.mjs a2a-settings --agent <tokenId> --wallet 0xYourAg
 `priceUHuman`. BORT enforces a floor under the price for some lanes and answers HTTP 400 with the reason when
 the price is under it; relay it and let the user pick a higher price.
 
+## The dapp's owner panel
+
+Some owner controls live only on the dapp: memory on and off, knowledge sources, platform connections,
+staking, baptise, the marketplace listing and the one-time spending authorizations. The dapp signs the owner
+in with the same `Login` struct. On `https://bortagent.xyz`, Launch App, the last row of the login modal
+is **Binance Agentic Wallet**. It opens a three-step panel, and the user may hand you its two commands
+instead of running them.
+
+1. The user types the wallet address (`baw wallet address --json`) and picks the agent; the panel lists
+   the agents that wallet owns.
+2. The panel shows the statement to check (`Sign in to manage BORT agent #42.`), the wallet, BNB Chain and
+   a ten-minute countdown, then two commands: `baw sign-message preview --binanceChainId 56 --signType
+   EIP712 --message '<signRequest>' --json`, then `baw sign-message execute --requestId <requestId> --json`.
+   Run them exactly as the panel prints them, with the same checks as step 3 of the flow above: the
+   `parsedMessage` is that statement for that wallet, no value is involved, the user says yes.
+3. Give the user the whole `execute` output (or the `result` output after `PENDING_CONFIRMATION`) to
+   paste into the panel's third step. It carries only `signature` and `signatureRecovery`, good for that
+   one nonce for ten minutes; it is not a session token. The panel posts it to
+   `POST /api/session/eip712/token` and the owner panel opens.
+
+The dapp session is per agent and per scope, like this one. When the user opens another agent's soul,
+memory, name, platforms or hire settings, the same panel comes back for that agent with the address locked,
+and asks for two more commands. The dapp may also ask for a chat sign-in or an upload sign-in; those
+statements are `Sign in to chat with BORT agent #42.` and `Sign in to upload files to BORT.`, and the same
+rules apply.
+
+Signed in this way the dapp has no wallet to sign with. Every on-chain button (fund, stake, list for sale,
+authorize, trading limit) shows a `baw contract-call preview --binanceChainId 56 --from <wallet> --to
+<contract> --value <wei> --inputData <calldata> --json` line with a copy button instead of a wallet popup.
+Treat it as any contract call: preview, show `parsedTx`, `balanceChanges` and the risks, get a "yes",
+execute, then the user refreshes the page. Minting, paid questions, inference and hiring stay on this skill;
+the dapp's wizard cannot mint this way.
+
 ## Errors
 
 | Response | Meaning | What to do |
