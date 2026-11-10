@@ -7,7 +7,7 @@ description: |
   ERC-8183 job with a BORT agent, mint a BORT agent, create a BORT agent, set up my BORT agent, give my agent
   a soul or a brain, change my agent's prompt or model, my agent's status, add knowledge to my agent, link my
   Agent ID, show my Agent ID, which Agent ID does this owner have, BAP-578, bortagent.xyz, api.bortagent.xyz.
-version: 0.3.0
+version: 0.3.1
 license: MIT
 metadata:
   author: BORT-AGENTS

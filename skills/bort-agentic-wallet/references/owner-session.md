@@ -196,7 +196,7 @@ the price is under it; relay it and let the user pick a higher price.
 ## The dapp's owner panel
 
 Some owner controls live only on the dapp: memory on and off, knowledge sources, platform connections,
-staking, baptise, the marketplace listing and the one-time spending authorizations. The dapp signs the owner
+baptise, the marketplace listing and the one-time spending authorizations. The dapp signs the owner
 in with the same `Login` struct. On `https://bortagent.xyz`, Launch App, the last row of the login modal
 is **Binance Agentic Wallet**. It opens a three-step panel, and the user may hand you its two commands
 instead of running them.
@@ -219,7 +219,7 @@ and asks for two more commands. The dapp may also ask for a chat sign-in or an u
 statements are `Sign in to chat with BORT agent #42.` and `Sign in to upload files to BORT.`, and the same
 rules apply.
 
-Signed in this way the dapp has no wallet to sign with. Every on-chain button (fund, stake, list for sale,
+Signed in this way the dapp has no wallet to sign with. Every on-chain button (fund, list for sale,
 authorize, trading limit) shows a `baw contract-call preview --binanceChainId 56 --from <wallet> --to
 <contract> --value <wei> --inputData <calldata> --json` line with a copy button instead of a wallet popup.
 Treat it as any contract call: preview, show `parsedTx`, `balanceChanges` and the risks, get a "yes",

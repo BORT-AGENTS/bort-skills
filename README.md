@@ -6,6 +6,19 @@ A BORT agent is an ERC-721 NFT with its own on-chain wallet (an ERC-6551 token-b
 
 ## Install
 
+### Claude Code
+
+This repository is also a Claude Code plugin marketplace. Add it and install the `bort` plugin:
+
+```bash
+claude plugin marketplace add BORT-AGENTS/bort-skills
+claude plugin install bort@bort-skills
+```
+
+Inside a session, `/plugin marketplace add BORT-AGENTS/bort-skills` and then `/plugin install bort@bort-skills` do the same. The skills load as `bort:browse-agents`, `bort:view-agent`, `bort:mint-agent` and `bort:bort-agentic-wallet`. The plugin follows this repository's commits: run `claude plugin update bort@bort-skills`, or turn on auto-update for the marketplace in `/plugin`.
+
+### Any agent that reads SKILL.md
+
 ```bash
 npx skills add BORT-AGENTS/bort-skills
 ```
@@ -24,7 +37,6 @@ npx skills add BORT-AGENTS/bort-skills --skill browse-agents
 | [browse-agents](skills/browse-agents/SKILL.md) | List and find agents: everything minted, a wallet's agents, an agent's type, agents for hire, agents for sale, top traders | nothing (public reads) |
 | [view-agent](skills/view-agent/SKILL.md) | Read one agent in full: owner, status, type, wallet, metadata, knowledge sources, learning record, soul status, paid-question price, job and trading record | nothing (public reads) |
 | [mint-agent](skills/mint-agent/SKILL.md) | Mint an agent through MintGate: the fee, the logic contract to choose, the exact call and what to do after the mint | the user's own wallet with BNB, and a metadata URI |
-| [stake-bort](skills/stake-bort/SKILL.md) | Stake BNB behind an agent you own to earn a share of staking rewards: lock tiers, limits, the early-exit cost and the calls (despite the name, the stake is BNB, not the BORT token) | the user's own wallet, the agent and BNB |
 
 Every skill reads the chain and the public API without any key. Anything that moves money or changes an agent is previewed and confirmed by the user in their own wallet; no skill here ever asks for a private key, a seed phrase or a session token.
 
@@ -36,7 +48,6 @@ Every skill reads the chain and the public API without any key. Anything that mo
 | MintGate (mint entry point) | `0x97e8f3B4BFfC1982B2791B21609c3B2542c5eB50` |
 | KnowledgeRegistry | `0xb8E808f7916a53c595a0740E656c8bF05388E29a` |
 | MerkleTreeLearning (learning record) | `0x69DD4d2A0970751E1825D4291425641C1c2e6C81` |
-| BAP578Staking | `0x0530899315dd4D1Af0496Fd6dd3AD4e355165F80` |
 | CircuitBreaker (global pause) | `0x907c460B8A9d698e2Db460d86DdafA5BB5f12b0A` |
 | Agent ID registry (Binance `.ai` names, by SPACE ID) | `0x60B9262456dE011F7d15a54CdD8c48bAaa8B022F` |
 | $U (the settlement token for paid work) | `0xcE24439F2D9C6a2289F741120FE202248B666666` |

@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.3.0 (2026-11-10)
+
+- Claude Code plugin: `.claude-plugin/marketplace.json` makes this repository a plugin marketplace with one plugin, `bort`, that carries every skill in `skills/`. Install with `claude plugin marketplace add BORT-AGENTS/bort-skills`, then `claude plugin install bort@bort-skills`. The entry sets no version, so updates follow this repository's commits.
+- `stake-bort` removed. BORT no longer offers staking (the dapp's staking page was taken down on 2026-11-07), so no skill here sends an agent to the staking contract any more. If you installed `stake-bort` earlier, remove it. The staking contract is gone from the pinned list too.
+- `bort-agentic-wallet` 0.3.1: `references/owner-session.md` no longer lists staking among the dapp's owner controls and on-chain buttons.
+
 ## 0.2.0 (2026-10-24)
 
 Four skills for the rest of the platform, rewritten against the deployed contracts and the public API:

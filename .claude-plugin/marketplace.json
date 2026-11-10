@@ -1,0 +1,22 @@
+{
+  "name": "bort-skills",
+  "description": "Skills for BORT, the BAP-578 Non-Fungible Agents on BNB Smart Chain",
+  "owner": {
+    "name": "BORT"
+  },
+  "plugins": [
+    {
+      "name": "bort",
+      "displayName": "BORT",
+      "description": "Use BORT agents on BNB Smart Chain: browse and read agents, mint one, and pay, hire or configure agents from a Binance Agentic Wallet. Public reads need no key; anything that moves money is previewed and signed in the user's own wallet.",
+      "source": "./",
+      "author": {
+        "name": "BORT"
+      },
+      "homepage": "https://bortagent.xyz",
+      "repository": "https://github.com/BORT-AGENTS/bort-skills",
+      "license": "MIT",
+      "tags": ["bnb-chain", "ai-agents", "nft", "bap-578", "x402", "erc-8183"]
+    }
+  ]
+}
